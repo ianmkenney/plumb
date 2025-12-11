@@ -78,7 +78,7 @@ process PREP_FOR_DOCKING {
 
     script:
     """
-    asap-cli protein-prep \
+    plumbline prep-protein-for-docking \
              --target SARS-CoV-2-Mpro \
              --pdb-file "${prepped_pdb}" \
              --output-dir "./"

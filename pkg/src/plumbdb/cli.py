@@ -72,6 +72,352 @@ def assess_prepped_protein(output_directory, input_openeye_du):
     with open(output_directory / f"{stem}_quality_report.json", "w") as f:
         json.dump(report, f, indent=4)
 
+# Prep for docking
+from typing import TYPE_CHECKING, Optional
+# copying everything
+# TODO delete everything from here that isn't needed
+
+def postera(func):
+    return click.option(
+        "--postera",
+        is_flag=True,
+        default=False,
+        help="Whether to download complexes from Postera.",
+    )(func)
+
+
+def postera_molset_name(func):
+    return click.option(
+        "--postera-molset-name",
+        type=str,
+        default=None,
+        help="The name of the Postera molecule set to use.",
+    )(func)
+
+
+def postera_upload(func):
+    return click.option(
+        "--postera-upload",
+        is_flag=True,
+        default=False,
+        help="Whether to upload results to Postera.",
+    )(func)
+
+
+def postera_args(func):
+    return postera(postera_molset_name(postera_upload(func)))
+
+
+def use_dask(func):
+    return click.option(
+        "--use-dask",
+        is_flag=True,
+        default=False,
+        help="Whether to use dask for parallelism.",
+    )(func)
+
+
+def dask_type(func):
+    return click.option(
+        "--dask-type",
+        type=click.Choice(DaskType.get_values(), case_sensitive=False),
+        default=DaskType.LOCAL,
+        help="The type of dask cluster to use. Local mode is reccommended for most use cases.",
+    )(func)
+
+
+def failure_mode(func):
+    return click.option(
+        "--failure-mode",
+        type=click.Choice(FailureMode.get_values(), case_sensitive=False),
+        default=FailureMode.SKIP,
+        help="The failure mode for dask. Can be 'raise' or 'skip'.",
+        show_default=True,
+    )(func)
+
+
+def dask_n_workers(func):
+    return click.option(
+        "--dask-n-workers",
+        type=int,
+        default=None,
+        help="The number of workers to use with dask.",
+    )(func)
+
+
+def dask_args(func):
+    return use_dask(dask_type(dask_n_workers(failure_mode(func))))
+
+
+def target(func):
+    from asapdiscovery.data.services.postera.manifold_data_validation import TargetTags
+    return click.option(
+        "--target",
+        type=click.Choice(TargetTags.get_values(), case_sensitive=True),
+        help="The target for the workflow",
+        required=True,
+    )(func)
+
+
+def ligands(func):
+    return click.option(
+        "-l",
+        "--ligands",
+        type=click.Path(resolve_path=True, exists=True, file_okay=True, dir_okay=False),
+        help="File containing ligands",
+    )(func)
+
+
+def output_dir(func):
+    return click.option(
+        "--output-dir",
+        type=click.Path(
+            resolve_path=True, exists=False, file_okay=False, dir_okay=True
+        ),
+        help="The directory to output results to.",
+        default="output",
+    )(func)
+
+
+def overwrite(func):
+    return click.option(
+        "--overwrite/--no-overwrite",
+        default=True,
+        help="Whether to overwrite the output directory if it exists.",
+    )(func)
+
+
+def input_json(func):
+    return click.option(
+        "--input-json",
+        type=click.Path(resolve_path=True, exists=True, file_okay=True, dir_okay=False),
+        help="Path to a json file containing the inputs to the workflow,  WARNING: overrides all other inputs.",
+    )(func)
+
+# flag to run all ml scorers
+def ml_score(func):
+    return click.option(
+        "--ml-score",
+        is_flag=True,
+        default=True,
+        help="Whether to run all ml scorers",
+    )(func)
+
+
+def fragalysis_dir(func):
+    return click.option(
+        "--fragalysis-dir",
+        type=click.Path(resolve_path=True, exists=True, file_okay=False, dir_okay=True),
+        help="Path to a directory containing fragments to dock.",
+    )(func)
+
+
+def structure_dir(func):
+    return click.option(
+        "--structure-dir",
+        type=click.Path(resolve_path=True, exists=True, file_okay=False, dir_okay=True),
+        help="Path to a directory containing structures.",
+    )(func)
+
+
+def pdb_file(func):
+    return click.option(
+        "--pdb-file",
+        type=click.Path(resolve_path=True, exists=True, file_okay=True, dir_okay=False),
+        help="Path to a pdb file containing a structure",
+    )(func)
+
+
+def cache_dir(func):
+    return click.option(
+        "--cache-dir",
+        type=click.Path(
+            resolve_path=True, exists=False, file_okay=False, dir_okay=True
+        ),
+        help="Path to a directory where design units are cached.",
+    )(func)
+
+
+def use_only_cache(func):
+    return click.option(
+        "--use-only-cache",
+        is_flag=True,
+        default=False,
+        help="Whether to only use the cache.",
+    )(func)
+
+
+def gen_cache_w_default(func):
+    return click.option(
+        "--gen-cache",
+        type=click.Path(
+            resolve_path=False, exists=False, file_okay=False, dir_okay=True
+        ),
+        help="Path to a directory where a design unit cache should be generated.",
+        default="prepped_structure_cache",
+    )(func)
+
+
+def md(func):
+    return click.option(
+        "--md",
+        is_flag=True,
+        default=False,
+        help="Whether to run MD",
+    )(func)
+
+
+def md_steps(func):
+    return click.option(
+        "--md-steps",
+        type=int,
+        default=2500000,
+        help="Number of MD steps",
+    )(func)
+
+def core_smarts(func):
+    return click.option(
+        "-cs",
+        "--core-smarts",
+        type=click.STRING,
+        help="The SMARTS which should be used to select which atoms to constrain to the reference structure.",
+    )(func)
+
+
+def save_to_cache(func):
+    return click.option(
+        "--save-to-cache/--no-save-to-cache",
+        help="If the newly generated structures should be saved to the cache folder.",
+        default=True,
+    )(func)
+
+
+def loglevel(func):
+    return click.option(
+        "--loglevel",
+        type=click.Choice(["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]),
+        help="The log level to use.",
+        default="INFO",
+        show_default=True,
+    )(func)
+
+
+def ref_chain(func):
+    return click.option(
+        "--ref-chain",
+        type=str,
+        default=None,
+        help="Chain ID to align to in reference structure containing the active site.",
+    )(func)
+
+
+def active_site_chain(func):
+    return click.option(
+        "--active-site-chain",
+        type=str,
+        default=None,
+        help="Active site chain ID to align to ref_chain in reference structure",
+    )(func)
+
+from asapdiscovery.data.util.dask_utils import DaskType, FailureMode
+
+if TYPE_CHECKING:
+    from asapdiscovery.data.services.postera.manifold_data_validation import TargetTags
+
+
+@cli.command(
+    "prep-protein-for-docking",
+    help="Prep protein to make OE Design Units and corresponding schema.",
+)
+@target
+@click.option(
+    "--align",
+    type=click.Path(resolve_path=True, exists=True, file_okay=True, dir_okay=False),
+    help="Path to a reference structure to align to",
+)
+@ref_chain
+@active_site_chain
+@click.option(
+    "--seqres-yaml",
+    type=click.Path(resolve_path=True, exists=True, file_okay=True, dir_okay=False),
+    help="Path to a seqres yaml file to mutate to, if not specified will use the default for the target",
+)
+@click.option(
+    "--loop-db",
+    type=click.Path(resolve_path=True, exists=True, file_okay=True, dir_okay=False),
+    help="Path to a loop database to use for prepping",
+)
+@click.option(
+    "--oe-active-site-residue",
+    type=str,
+    help="OE formatted string of active site residue to use if not ligand bound",
+)
+@pdb_file
+@fragalysis_dir
+@structure_dir
+@click.option(
+    "--cache-dir",
+    help="The path to cached prepared complexes which can be used again.",
+    type=click.Path(resolve_path=True, exists=True, file_okay=False, dir_okay=True),
+)
+@save_to_cache
+@dask_args
+@output_dir
+@input_json
+def protein_prep(
+    target: "TargetTags",
+    align: Optional[str] = None,
+    ref_chain: Optional[str] = None,
+    active_site_chain: Optional[str] = None,
+    seqres_yaml: Optional[str] = None,
+    loop_db: Optional[str] = None,
+    oe_active_site_residue: Optional[str] = None,
+    pdb_file: Optional[str] = None,
+    fragalysis_dir: Optional[str] = None,
+    structure_dir: Optional[str] = None,
+    cache_dir: Optional[str] = None,
+    save_to_cache: bool = True,
+    use_dask: bool = False,
+    dask_type: DaskType = DaskType.LOCAL,
+    dask_n_workers: Optional[int] = None,
+    failure_mode: FailureMode = FailureMode.SKIP,
+    output_dir: str = "output",
+    input_json: Optional[str] = None,
+):
+    """
+    Run protein prep on a set of structures.
+    """
+    from asapdiscovery.workflows.prep_workflows.protein_prep import (
+        ProteinPrepInputs,
+        protein_prep_workflow,
+    )
+
+    if input_json is not None:
+        print("Loading inputs from json file... Will override all other inputs.")
+        inputs = ProteinPrepInputs.from_json_file(input_json)
+
+    else:
+        inputs = ProteinPrepInputs(
+            target=target,
+            align=align,
+            ref_chain=ref_chain,
+            active_site_chain=active_site_chain,
+            seqres_yaml=seqres_yaml,
+            loop_db=loop_db,
+            oe_active_site_residue=oe_active_site_residue,
+            pdb_file=pdb_file,
+            fragalysis_dir=fragalysis_dir,
+            structure_dir=structure_dir,
+            cache_dir=cache_dir,
+            save_to_cache=save_to_cache,
+            use_dask=use_dask,
+            dask_type=dask_type,
+            dask_n_workers=dask_n_workers,
+            failure_mode=failure_mode,
+            output_dir=output_dir,
+        )
+
+    protein_prep_workflow(inputs)
 
 # TODO: check for openeye installation, maybe make it a decorator
 @cli.command(
@@ -236,10 +582,10 @@ def process_bindingdb(input_directory, output_directory):
                 "has_3d": mol.to_oemol().GetDimension() == 3,
                 "num_atoms": mol.to_oemol().NumAtoms(),
                 "smiles": mol.smiles,
-                # "pdb_id": mol.tags.get("PDB ID")[:4] # removed trailing space 
+                # "pdb_id": mol.tags.get("PDB ID")[:4] # removed trailing space
                 # if mol.tags.get("PDB ID") # removed trailing space
-                "pdb_id": mol.tags.get("PDB ID(s) for Ligand-Target Complex")[:4] # removed trailing space 
-                if mol.tags.get("PDB ID(s) for Ligand-Target Complex") 
+                "pdb_id": mol.tags.get("PDB ID(s) for Ligand-Target Complex")[:4] # removed trailing space
+                if mol.tags.get("PDB ID(s) for Ligand-Target Complex")
                 else "",
             }
 
