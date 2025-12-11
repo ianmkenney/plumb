@@ -450,7 +450,7 @@ def generate_constrained_ligand_poses(input_sdf, prepped_schema, output_director
     # reconstruct ligands from smiles because of some weirdness with the sdf files
     ligs = [
         Ligand.from_smiles(
-            compound_name=lig.tags["BindingDB monomerid"],
+            compound_name=lig.tags["BindingDB MonomerID"], # Changed capitalization
             smiles=lig.smiles,
             tags=lig.dict(),
         )
