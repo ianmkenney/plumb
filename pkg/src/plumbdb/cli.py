@@ -621,6 +621,30 @@ def process_bindingdb(input_directory, output_directory):
                 )
             )
 
+@cli.command("rename-ligands-for-openfe")
+@click.option("-i",
+              "--input-sdf",
+              type=click.Path(file_okay=True, dir_okay=False, path_type=pathlib.Path),)
+@click.option(
+    "-o",
+    "--output-dir",
+    type=click.Path(file_okay=False, dir_okay=True, path_type=pathlib.Path),
+    required=True,
+    default=pathlib.Path("./"),
+    help="Path to the output directory where the results will be stored",
+)
+def rename_ligands_for_sdf(input_sdf, output_dir):
+    from asapdiscovery.data.schema.ligand import Ligand
+    from asapdiscovery.data.readers.molfile import MolFileFactory
+    from asapdiscovery.data.schema.ligand import write_ligands_to_multi_sdf
+    mols: list[Ligand] = MolFileFactory(filename=input_sdf).load()
+    new_ligands = []
+    for mol in mols:
+        oemol = mol.to_oemol()
+        oemol.SetTitle(mol.compound_name)
+        new_ligands.append(Ligand.from_oemol(oemol))
+    output_sdf = output_dir / "renamed.sdf"
+    write_ligands_to_multi_sdf(output_sdf, new_ligands, overwrite=True)
 
 @cli.command(
     "visualize-network",
