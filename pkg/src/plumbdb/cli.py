@@ -138,7 +138,8 @@ def generate_constrained_ligand_poses(input_sdf, prepped_schema, output_director
 def prep_cif(input_json, input_cif, fasta_sequence, loop_db, output_directory):
     from asapdiscovery.data.backend.openeye import load_openeye_cif1
     from asapdiscovery.modeling.modeling import split_openeye_mol
-    from asapdiscovery.data.schema.ligand import Ligand, Complex
+    from asapdiscovery.data.schema.ligand import Ligand
+    from asapdiscovery.data.schema.complex import Complex
     from plumbdb.oespruce import spruce_protein
     from asapdiscovery.data.schema.target import Target
 
@@ -235,8 +236,10 @@ def process_bindingdb(input_directory, output_directory):
                 "has_3d": mol.to_oemol().GetDimension() == 3,
                 "num_atoms": mol.to_oemol().NumAtoms(),
                 "smiles": mol.smiles,
-                "pdb_id": mol.tags.get("PDB ID ")[:4]
-                if mol.tags.get("PDB ID ")
+                # "pdb_id": mol.tags.get("PDB ID")[:4] # removed trailing space 
+                # if mol.tags.get("PDB ID") # removed trailing space
+                "pdb_id": mol.tags.get("PDB ID(s) for Ligand-Target Complex")[:4] # removed trailing space 
+                if mol.tags.get("PDB ID(s) for Ligand-Target Complex") 
                 else "",
             }
 
