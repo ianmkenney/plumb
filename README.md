@@ -3,21 +3,32 @@
     <source media="(prefers-color-scheme: dark)" srcset="docs/images/nf-core-plumb_logo_dark.png">
     <img alt="nf-core/plumb" src="docs/images/nf-core-plumb_logo_light.png">
   </picture>
-</h1>[![GitHub Actions CI Status](https://github.com/nf-core/plumb/actions/workflows/ci.yml/badge.svg)](https://github.com/nf-core/plumb/actions/workflows/ci.yml)
+</h1>
+<!-- [![GitHub Actions CI Status](https://github.com/nf-core/plumb/actions/workflows/ci.yml/badge.svg)](https://github.com/nf-core/plumb/actions/workflows/ci.yml)
 [![GitHub Actions Linting Status](https://github.com/nf-core/plumb/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/plumb/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/plumb/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
-[![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
+[![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com) -->
 
-[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A524.04.2-23aa62.svg)](https://www.nextflow.io/)
+<!-- [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A524.04.2-23aa62.svg)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
-[![Launch on Seqera Platform](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Seqera%20Platform-%234256e7)](https://cloud.seqera.io/launch?pipeline=https://github.com/nf-core/plumb)
+[![Launch on Seqera Platform](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Seqera%20Platform-%234256e7)](https://cloud.seqera.io/launch?pipeline=https://github.com/nf-core/plumb) -->
 
-[![Get help on Slack](http://img.shields.io/badge/slack-nf--core%20%23plumb-4A154B?labelColor=000000&logo=slack)](https://nfcore.slack.com/channels/plumb)[![Follow on Twitter](http://img.shields.io/badge/twitter-%40nf__core-1DA1F2?labelColor=000000&logo=twitter)](https://twitter.com/nf_core)[![Follow on Mastodon](https://img.shields.io/badge/mastodon-nf__core-6364ff?labelColor=FFFFFF&logo=mastodon)](https://mstdn.science/@nf_core)[![Watch on YouTube](http://img.shields.io/badge/youtube-nf--core-FF0000?labelColor=000000&logo=youtube)](https://www.youtube.com/c/nf-core)
+<!-- [![Get help on Slack](http://img.shields.io/badge/slack-nf--core%20%23plumb-4A154B?labelColor=000000&logo=slack)](https://nfcore.slack.com/channels/plumb)[![Follow on Twitter](http://img.shields.io/badge/twitter-%40nf__core-1DA1F2?labelColor=000000&logo=twitter)](https://twitter.com/nf_core)[![Follow on Mastodon](https://img.shields.io/badge/mastodon-nf__core-6364ff?labelColor=FFFFFF&logo=mastodon)](https://mstdn.science/@nf_core)[![Watch on YouTube](http://img.shields.io/badge/youtube-nf--core-FF0000?labelColor=000000&logo=youtube)](https://www.youtube.com/c/nf-core) -->
+## Project Status: Unmaintained
+
+This project is archived and is no longer under active development.
+
+Thank you to everyone who used or contributed to this project. If you're interested 
+in maintaining a fork, please feel free to do so 
 
 ## Introduction
 
 **nf-core/plumb** is a pipeline that generates a publicly accessible database that integrates structural and thermodynamic data for diverse protein-ligand systems, prioritizing reproducibility. The database will be built from known protein-ligand complexes and include docked congeneric ligand series to represent a broad chemical space, with quality control processes to evaluate the quality of docked poses. This effort is conducted in conjunction with the Living Journal of Computational Molecular Sciences paper, “Best Practices for Constructing, Preparing, and Evaluating Protein-Ligand Binding Affinity Benchmarks [Article v1.0],” which aims to create a fully self-consistent, open community resource and set of best practices free from any particular commercial vendor influence.
+
+## Blog
+
+
 
 <!-- TODO nf-core:
    Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
@@ -66,37 +77,37 @@ nextflow run nf-core/plumb \
 
 For more details and further functionality, please refer to the [usage documentation](https://nf-co.re/plumb/usage) and the [parameter documentation](https://nf-co.re/plumb/parameters).
 
-## Pipeline output
+<!-- ## Pipeline output -->
 
-To see the results of an example test run with a full size dataset refer to the [results](https://nf-co.re/plumb/results) tab on the nf-core website pipeline page.
+<!-- To see the results of an example test run with a full size dataset refer to the [results](https://nf-co.re/plumb/results) tab on the nf-core website pipeline page.
 For more details about the output files and reports, please refer to the
-[output documentation](https://nf-co.re/plumb/output).
+[output documentation](https://nf-co.re/plumb/output). -->
 
-## Credits
+<!-- ## Credits
 
 nf-core/plumb was originally written by Ariana Brenner Clerkin.
 
-We thank the following people for their extensive assistance in the development of this pipeline:
+We thank the following people for their extensive assistance in the development of this pipeline: -->
 
 <!-- TODO nf-core: If applicable, make list of people who have also contributed -->
 
-## Contributions and Support
+<!-- ## Contributions and Support -->
 
-If you would like to contribute to this pipeline, please see the [contributing guidelines](.github/CONTRIBUTING.md).
+<!-- If you would like to contribute to this pipeline, please see the [contributing guidelines](.github/CONTRIBUTING.md).
 
-For further information or help, don't hesitate to get in touch on the [Slack `#plumb` channel](https://nfcore.slack.com/channels/plumb) (you can join with [this invite](https://nf-co.re/join/slack)).
+For further information or help, don't hesitate to get in touch on the [Slack `#plumb` channel](https://nfcore.slack.com/channels/plumb) (you can join with [this invite](https://nf-co.re/join/slack)). -->
 
-## Citations
+<!-- ## Citations
 
 <!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
 <!-- If you use nf-core/plumb for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) --><!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
 
-An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
+<!-- An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
-You can cite the `nf-core` publication as follows:
-
+You can cite the `nf-core` publication as follows: -->
+<!-- 
 > **The nf-core framework for community-curated bioinformatics pipelines.**
 >
 > Philip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso & Sven Nahnsen.
 >
-> _Nat Biotechnol._ 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x).
+> _Nat Biotechnol._ 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x). --> 
