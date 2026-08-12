@@ -1,0 +1,7 @@
+
+[dev]
+pytest
+ruff
+
+[test]
+pytest

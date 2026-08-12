@@ -1,0 +1,29 @@
+Metadata-Version: 2.4
+Name: plumbdb
+Version: 0.0.0
+Author-email: Ariana Brenner Clerkin <ariana.clerkin@choderlab.org>
+License-Expression: MIT
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: POSIX
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: Topic :: Scientific/Engineering :: Chemistry
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+
+# plumbdb
+
+## Installation
+
+Since `plumbdb` is not yet registered with conda-forge, follow the developer installation instructions at [docs/developer.md](docs/developer.md#installation).
+
+## Usage
+
+### Command line
+
+`plumbdb` is usable via command line through the `plumbline` CLI application.
